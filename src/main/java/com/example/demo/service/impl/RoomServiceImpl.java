@@ -1,9 +1,11 @@
 package com.example.demo.service.impl;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.example.demo.exception.RoomAlreadyExistsException;
 import com.example.demo.exception.RoomNotFoundException;
 
 import com.example.demo.mapper.RoomMapper;
@@ -37,32 +39,52 @@ public class RoomServiceImpl implements RoomService {
 
 	@Override
 	public void addRoom(RoomDto roomDto) {
-		// TODO Auto-generated method stub
+		// 判斷該房號是否已經存在 ?
+		Optional<Room> optRoom = roomRepository.findById(roomDto.getRoomId());
+		if(optRoom.isPresent()) {
+			 throw new RoomAlreadyExistsException("新增失敗 房號:" + roomDto.getRoomId()+"已存在房號");
+		}
+		// 進入新增程序
+		// DTO 轉 Entity
+		Room room = roomMapper.toEntity(roomDto);
+		// 將 Entity room 存入
+		roomRepository.save(room);
 		
 	}
 
 	@Override
 	public void addRoom(Integer roomId, String roomName, Integer roomSize) {
-		// TODO Auto-generated method stub
+		RoomDto roomDto = new RoomDto(roomId, roomName, roomSize);
+		addRoom(roomDto);
 		
 	}
 
 	@Override
 	public void updateRoom(Integer roomId, RoomDto roomDto) {
-		// TODO Auto-generated method stub
-		
+		// 判斷該房號是否已經存在 ?
+		Optional<Room> optRoom = roomRepository.findById(roomId);
+		if(optRoom.isEmpty()) {// 房間不存在
+			throw new RoomAlreadyExistsException("修改失敗: 房號 " + roomDto.getRoomId() + " 不存在");
+		}
+		roomDto.setRoomId(roomId);
+		Room room = roomMapper.toEntity(roomDto); // 更新(馬上強制寫入更新)
+		roomRepository.saveAndFlush(room);
+		//roomRepository.save(room); // 更新(可以配合交易模式, 若交易失敗則會回滾)
 	}
 
 	@Override
 	public void updateRoom(Integer roomId, String roomName, Integer roomSize) {
-		// TODO Auto-generated method stub
-		
+		RoomDto roomDto = new RoomDto(roomId,roomName,roomSize);
+		updateRoom(roomId, roomDto);
 	}
 
 	@Override
 	public void deleteRoom(Integer roomId) {
-		// TODO Auto-generated method stub
-		
+		Optional<Room> optRoom = roomRepository.findById(roomId);
+		if(optRoom.isEmpty()) {// 房間不存在
+			throw new RoomAlreadyExistsException("刪除失敗: 房號 " + roomId + " 不存在");
+		}
+		roomRepository.deleteById(roomId);
 	}
 	
 
