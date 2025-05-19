@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.example.demo.exception.RoomAlreadyExistsException;
 import com.example.demo.exception.RoomNotFoundException;
@@ -14,6 +15,8 @@ import com.example.demo.model.entity.Room;
 import com.example.demo.repository.RoomRepository;
 import com.example.demo.service.RoomService;
 
+
+@Service
 public class RoomServiceImpl implements RoomService {
 	
 	@Autowired
