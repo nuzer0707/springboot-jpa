@@ -21,7 +21,8 @@ public class LoginRestFilter extends HttpFilter {
 			throws IOException, ServletException {
 		String method = request.getMethod();
 
-		// 1. 首先，無條件放行 OPTIONS 請求 (CORS Preflight)
+//  ******** 首先，無條件放行 OPTIONS 請求 (CORS Preflight)*******
+		
 		if ("OPTIONS".equalsIgnoreCase(method)) {
 	            chain.doFilter(request, response);
 	            return;
