@@ -12,19 +12,16 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-
 public class RoomDto {
-	
 	@NotNull(message = "{roomDto.roomId.notNull}")
-	@Range(min=1,max=9999 ,message="{roomDto.roomId.range}")
+	@Range(min = 1, max = 9999, message = "{roomDto.roomId.range}")
 	private Integer roomId;
 	
 	@NotEmpty(message = "{roomDto.roomName.notEmpty}")
-	@Size(min=2,message="{roomDto.roomName.size}")
+	@Size(min = 2, message = "{roomDto.roomName.size}")
 	private String roomName;
 	
 	@NotNull(message = "{roomDto.roomSize.notNull}")
-	@Range(min=1,max=500 ,message="{roomDto.roomSize.range}")
+	@Range(min = 1, max = 500, message = "{roomDto.roomSize.range}")
 	private Integer roomSize;
-	
 }

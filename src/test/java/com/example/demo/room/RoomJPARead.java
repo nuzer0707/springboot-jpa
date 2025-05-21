@@ -1,7 +1,6 @@
-package com.example.demo;
+package com.example.demo.room;
 
 import java.util.List;
-import java.util.Scanner;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,9 +15,13 @@ public class RoomJPARead {
 	private RoomRepository roomRepository;
 	
 	@Test
-	public void text() {
+	public void test() {
+		//List<Room> rooms = roomRepository.findByRoomSizeGreaterThan(30);
+		//List<Room> rooms = roomRepository.findRooms(30);
 		List<Room> rooms = roomRepository.readRooms(30);
 		System.out.println(rooms.size());
 		System.out.println(rooms);
+		
+		
 	}
 }
