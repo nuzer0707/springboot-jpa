@@ -22,7 +22,7 @@ import com.example.demo.response.ApiResponse;
 import com.example.demo.service.RoomService;
 
 import jakarta.validation.Valid;
-
+import org.springframework.web.bind.annotation.*;
 /**
 請求方法 URL 路徑              功能說明      請求參數                                   回應
 --------------------------------------------------------------------------------------------------------------------
@@ -36,7 +36,7 @@ DELETE /rest/room/{roomId} 刪除指定房間    roomId (路徑參數，房間 I
 @RestController
 @RequestMapping(value = {"/rest/room", "/rest/rooms"})
 // allowCredentials = "true" 允許接收客戶端傳來的憑證資料,例如: session id
-@CrossOrigin(origins = {"http://localhost:5173", "http://localhost:8002"}, allowCredentials = "true")
+@CrossOrigin(origins = {"http://localhost:5173", "http://localhost:8002"}, allowCredentials = "true",allowedHeaders = "*",methods = {RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT, RequestMethod.DELETE, RequestMethod.OPTIONS})
 public class RoomRestController {
 	
 	@Autowired

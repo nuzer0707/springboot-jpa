@@ -21,13 +21,20 @@ public class LoginRestFilter extends HttpFilter {
 			throws IOException, ServletException {
 		String method = request.getMethod();
 
+		// 1. 首先，無條件放行 OPTIONS 請求 (CORS Preflight)
+		if ("OPTIONS".equalsIgnoreCase(method)) {
+	            chain.doFilter(request, response);
+	            return;
+	      }
+		
         // 開放 GET 查詢
         if ("GET".equalsIgnoreCase(method)) {
             chain.doFilter(request, response);
             return;
         }
         
-        HttpSession session = request.getSession();
+        // 3. 對於其他方法 (POST, PUT, DELETE 等)，驗證登入狀態
+        HttpSession session = request.getSession(false); // 傳 false，如果 session 不存在則不創建新的
         // 非 GET 時驗證登入狀態
         if (session != null && session.getAttribute("userCert") != null) {
             chain.doFilter(request, response); // 已登入，放行
